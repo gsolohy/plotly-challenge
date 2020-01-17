@@ -19,7 +19,7 @@ function hbarChart(sample) {
         height: 550,
         width: 450,
         margin: {
-            t: 20,
+            t: 25,
             l: 120
         }
     };
@@ -55,10 +55,10 @@ function bubbleChart(sample) {
 };
 
 function demoInfo(metadata) {
-    Object.entries(metadata).forEach(([key, value]) => {
+    Object.entries(metadata).forEach(([k, v]) => {
         demograph.append("h6")
                  .append("b")
-                 .text(`${key}: ${value}`);
+                 .text(`${k}: ${v}`);
     })
 };
 
@@ -76,6 +76,8 @@ function init() {
         hbarChart(data.samples[0]);
         bubbleChart(data.samples[0]);
         demoInfo(data.metadata[0]);
+        // bonus.js
+        gaugeChart(data.metadata[0]);
     });
 };
 init();
