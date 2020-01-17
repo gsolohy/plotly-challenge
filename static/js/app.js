@@ -1,4 +1,4 @@
-const file = d3.json("../../samples.json");
+const file = d3.json("./data/samples.json");
 const dropDown = d3.select("#selDataset");
 const demograph = d3.select("#sample-metadata");
 
@@ -86,9 +86,9 @@ file.then( (data) => {
     // console.log(data);
     // console.log(data['names']);
     // console.log(data.names[0]);
-    console.log(data.samples);
-    console.log(data.samples[0]);
-    console.log(data.samples[0].id);
+    // console.log(data.samples);
+    // console.log(data.samples[0]);
+    // console.log(data.samples[0].id);
     // console.log(data.samples[0].sample_values.slice(0,10));
     // console.log(data.samples[0].otu_ids.slice(0,10));
     // console.log(data.samples[0]['sample_values']);
