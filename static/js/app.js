@@ -1,11 +1,9 @@
 const file = d3.json("./data/samples.json");
-const dropDown = d3.select("#selDataset");
-const demograph = d3.select("#sample-metadata");
 
 function hbarChart(sample) {
-    var x = sample.sample_values.slice(0,10);
-    var y = sample.otu_ids.slice(0,10);
-    var name = sample.otu_labels.slice(0,10);
+    var x = sample[0].sample_values.slice(0,10);
+    var y = sample[0].otu_ids.slice(0,10);
+    var name = sample[0].otu_labels.slice(0,10);
 
     var data = [{
         type: 'bar',
@@ -27,9 +25,9 @@ function hbarChart(sample) {
 };
 
 function bubbleChart(sample) {
-    var x = sample.otu_ids;
-    var y = sample.sample_values;
-    var name = sample.otu_labels;
+    var x = sample[0].otu_ids;
+    var y = sample[0].sample_values;
+    var name = sample[0].otu_labels;
 
     var data = [{
         mode: 'markers',
@@ -55,43 +53,55 @@ function bubbleChart(sample) {
 };
 
 function demoInfo(metadata) {
-    Object.entries(metadata).forEach(([k, v]) => {
-        demograph.append("h6")
-                 .append("b")
-                 .text(`${k}: ${v}`);
-    })
+    d3.select("#sample-metadata").html("");
+    Object.entries(metadata[0]).forEach(([k, v]) => {
+        d3.select("#sample-metadata").append("h6")
+                                     .append("b")
+                                     .text(`${k}: ${v}`);
+    });
 };
 
-function optionChanged() {
-    
+function optionChanged(this_value) {
+    console.log(this_value);
+    file.then((data) => {
+        let sample = data.samples.filter(d => d.id == this_value);
+        let metadata = data.metadata.filter(d => d.id == this_value);
+
+        hbarChart(sample);
+        bubbleChart(sample);
+        demoInfo(metadata);
+    });
 };
 
 function init() {
     file.then((data) => {
+        // Dropdown Menu
         data["names"].forEach(item => {
-            dropDown.append("option")
+            d3.select("#selDataset").append("option")
                     .text(item)
                     .property("value", item);
         });
-        hbarChart(data.samples[0]);
-        bubbleChart(data.samples[0]);
-        demoInfo(data.metadata[0]);
+        // Charts and Demographics Info
+        hbarChart(data.samples);
+        bubbleChart(data.samples);
+        demoInfo(data.metadata);
         // bonus.js
-        gaugeChart(data.metadata[0]);
+        // gaugeChart(data.metadata[0]);
     });
 };
 init();
 
-file.then( (data) => {
+// Test runs
+file.then((data) => {
     // console.log(data);
     // console.log(data['names']);
     // console.log(data.names[0]);
     // console.log(data.samples);
     // console.log(data.samples[0]);
     // console.log(data.samples[0].id);
-    // console.log(data.samples[0].sample_values.slice(0,10));
-    // console.log(data.samples[0].otu_ids.slice(0,10));
-    // console.log(data.samples[0]['sample_values']);
-    // console.log(data.samples[0]['otu_ids']);
-    // console.log(data.samples[0]['otu_labels']);
+    // console.log(typeof data.samples[0].id);
+
+    // var sample = data.samples.filter(d => d.id == '941');
+    // console.log(sample);
+    // console.log(sample[0]);
 });
