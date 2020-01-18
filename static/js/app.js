@@ -21,7 +21,12 @@ function hbarChart(sample) {
             l: 120
         }
     };
-    Plotly.newPlot("bar", data, layout);
+
+    // Plotly.react functions like newPlot but restyles on recall instead
+    // of breaking and creating a newPlot.
+    // https://plot.ly/javascript/plotlyjs-function-reference/
+    // This seems ideal than making two distinct functions for newPlot and restyle
+    Plotly.react("bar", data, layout);
 };
 
 function bubbleChart(sample) {
@@ -49,7 +54,7 @@ function bubbleChart(sample) {
             t: 0
         }
     };
-    Plotly.newPlot("bubble", data, layout);
+    Plotly.react("bubble", data, layout);
 };
 
 function demoInfo(metadata) {
@@ -61,14 +66,41 @@ function demoInfo(metadata) {
     });
 };
 
+function updateCharts(sample) {
+    var id = sample[0].otu_ids;
+    var value = sample[0].sample_values;
+    var label = sample[0].otu_labels;
+
+    var data_bar = {
+        'x': [value.slice(0,10).reverse()],
+        'y': [id.slice(0,10).map(d => 'OTU '+ d+' ').reverse()],
+        'text': label.slice(0,10)
+    };
+
+    var data_bubble = {
+        'x': [id],
+        'y': [value],
+        'text': [label],
+        'marker.color': [id],
+        'marker.size': [value]
+    };
+
+    Plotly.restyle("bar", data_bar);
+    Plotly.restyle("bubble", data_bubble);
+}
+
 function optionChanged(this_value) {
-    console.log(this_value);
+    // console.log(this_value);
+    // console.log(typeof this_value);
     file.then((data) => {
         let sample = data.samples.filter(d => d.id == this_value);
         let metadata = data.metadata.filter(d => d.id == this_value);
 
-        hbarChart(sample);
-        bubbleChart(sample);
+        // hbarChart() & bubbleChart(): Plotly.react() used
+        // hbarChart(sample);
+        // bubbleChart(sample);
+
+        updateCharts(sample); // updateCharts: Plotly.restyle() used
         demoInfo(metadata);
     });
 };
@@ -86,13 +118,13 @@ function init() {
         bubbleChart(data.samples);
         demoInfo(data.metadata);
         // bonus.js
-        // gaugeChart(data.metadata[0]);
+        // gaugeChart(data.metadata);
     });
 };
 init();
 
 // Test runs
-file.then((data) => {
+// file.then((data) => {
     // console.log(data);
     // console.log(data['names']);
     // console.log(data.names[0]);
@@ -104,4 +136,4 @@ file.then((data) => {
     // var sample = data.samples.filter(d => d.id == '941');
     // console.log(sample);
     // console.log(sample[0]);
-});
+// });
