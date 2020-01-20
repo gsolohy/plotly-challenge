@@ -99,8 +99,10 @@ function optionChanged(this_value) {
         // hbarChart() & bubbleChart(): Plotly.react() used
         // hbarChart(sample);
         // bubbleChart(sample);
+        guageChart(metadata);
 
         updateCharts(sample); // updateCharts: Plotly.restyle() used
+        // updateGuage(metadata);
         demoInfo(metadata);
     });
 };
@@ -118,7 +120,7 @@ function init() {
         bubbleChart(data.samples);
         demoInfo(data.metadata);
         // bonus.js
-        // gaugeChart(data.metadata);
+        gaugeChart(data.metadata);
     });
 };
 init();
