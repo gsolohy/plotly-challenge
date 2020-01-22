@@ -1,11 +1,11 @@
 function gaugeChart(metadata) {
-    // console.log(metadata[0]);
-    let degChanger = metadata[0].wfreq * 20 //degree;
+    var wfreq = metadata[0].wfreq;
+    var degChanger = wfreq * 20 //degree;
 
-    let deg = 180-degChanger, r = .3;
-    let rad = deg * Math.PI / 180;
-    let x = r*Math.cos(rad)+0.5;
-    let y = r*Math.sin(rad)+0.5;
+    var deg = 180-degChanger, r = .3;
+    var rad = deg * Math.PI / 180;
+    var x = r*Math.cos(rad)+0.5;
+    var y = r*Math.sin(rad)+0.5;
 
     var data = [{
         type: "pie",
@@ -18,7 +18,11 @@ function gaugeChart(metadata) {
         textinfo: "text",
         textposition: "inside",
         marker: {
-            colors: ["rgba(255, 0, 0, 0.6)", "rgba(255, 165, 0, 0.6)", "rgba(255, 255, 0, 0.6)", "rgba(144, 238, 144, 0.6)", "rgba(154, 205, 50, 0.6)", "rgba(255, 0, 0, 0.6)", "rgba(255, 165, 0, 0.6)", "rgba(255, 255, 0, 0.6)", "rgba(144, 238, 144, 0.6)", "white"]
+            colors: ["rgba(255, 0, 0, 0.6)", "rgba(255, 165, 0, 0.6)", 
+                     "rgba(255, 255, 0, 0.6)", "rgba(144, 238, 144, 0.6)", 
+                     "rgba(154, 205, 50, 0.6)", "rgba(255, 0, 0, 0.6)", 
+                     "rgba(255, 165, 0, 0.6)", "rgba(255, 255, 0, 0.6)", 
+                     "rgba(144, 238, 144, 0.6)", "white"]
         },
         hoverinfo: "text"
     }];
@@ -44,11 +48,17 @@ function gaugeChart(metadata) {
 }
 
 function updateGuage(metadata) {
+    wfreq = metadata[0].wfreq;
+    degChanger = wfreq * 20 //degree;
 
-    var data_guage = {
-        'x': [value.slice(0,10).reverse()],
-        'y': [id.slice(0,10).map(d => 'OTU '+ d+' ').reverse()],
-        'text': label.slice(0,10)
+    deg = 180-degChanger, r = .3;
+    rad = deg * Math.PI / 180;
+    x = r*Math.cos(rad)+0.5;
+    y = r*Math.sin(rad)+0.5;
+
+    var layout_guage = {
+        'shape.x1': [x],
+        'shape.y1': [y]
     };
-    Plotly.restyle("guage",data_guage);
+    Plotly.restyle("guage",layout_guage);
 };
