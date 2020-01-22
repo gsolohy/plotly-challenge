@@ -4,7 +4,7 @@ function gaugeChart(metadata) {
     // var degChanger = wfreq * 20
     // var deg = 180-degChanger;
     var r = .3;
-    var rad = (180 - (wfreq+0.5)*20) * Math.PI / 180;
+    var rad = (180 - (wfreq)*20) * Math.PI / 180;
     var x = r*Math.cos(rad)+0.5;
     var y = r*Math.sin(rad)+0.5;
 
