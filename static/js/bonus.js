@@ -1,9 +1,10 @@
 function gaugeChart(metadata) {
     var wfreq = metadata[0].wfreq;
-    var degChanger = wfreq * 20 //degree;
-
-    var deg = 180-degChanger, r = .3;
-    var rad = deg * Math.PI / 180;
+    // console.log(wfreq);
+    // var degChanger = wfreq * 20
+    // var deg = 180-degChanger;
+    var r = .3;
+    var rad = (180 - wfreq*20) * Math.PI / 180;
     var x = r*Math.cos(rad)+0.5;
     var y = r*Math.sin(rad)+0.5;
 
@@ -39,26 +40,24 @@ function gaugeChart(metadata) {
               width: 4
             }
           }],
-        title: '<b>Belly Button Washing Frequency</b> <br>Scrubs per Week',
-        height: 650,
-        width: 650
+        title: '<b>Belly Button Washing Frequency</b><br>Scrubs per Week'
     };
 
     Plotly.react("gauge", data, layout);
 }
 
-function updateGuage(metadata) {
-    wfreq = metadata[0].wfreq;
-    degChanger = wfreq * 20 //degree;
+// I couldn't find a way to restyle only the layout part of a plot using restyle
 
-    deg = 180-degChanger, r = .3;
-    rad = deg * Math.PI / 180;
-    x = r*Math.cos(rad)+0.5;
-    y = r*Math.sin(rad)+0.5;
+// function updateGuage(metadata) {
+//   var wfreq = metadata[0].wfreq;
+//   var r = .3;
+//   var rad = (180 - wfreq*20) * Math.PI / 180;
+//   var x = r*Math.cos(rad)+0.5;
+//   var y = r*Math.sin(rad)+0.5;
 
-    var layout_guage = {
-        'shape.x1': [x],
-        'shape.y1': [y]
-    };
-    Plotly.restyle("guage",layout_guage);
-};
+//     var update_needle = {
+//         'shape.x1': [x],
+//         'shape.y1': [y]
+//     };
+//     Plotly.restyle("guage",update_needle);
+// };
