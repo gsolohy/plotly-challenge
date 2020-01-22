@@ -96,30 +96,33 @@ function optionChanged(this_value) {
         let sample = data.samples.filter(d => d.id == this_value);
         let metadata = data.metadata.filter(d => d.id == this_value);
 
-        // hbarChart() & bubbleChart(): Plotly.react() used
+        // function works as plotly.react()
         // hbarChart(sample);
         // bubbleChart(sample);
-
-        updateCharts(sample); // updateCharts: Plotly.restyle() used
-        // updateGuage(metadata);
+        
+        updateCharts(sample); // function uses plotly.restyle()
         demoInfo(metadata);
         // bonus.js
         gaugeChart(metadata);
+        // updateGauge(metadata); // function does not work
     });
 };
 
 function init() {
     file.then((data) => {
+        
         // Dropdown Menu
         data["names"].forEach(item => {
             d3.select("#selDataset").append("option")
                     .text(item)
                     .property("value", item);
         });
+
         // Charts and Demographics Info
         hbarChart(data.samples);
         bubbleChart(data.samples);
         demoInfo(data.metadata);
+
         // bonus.js
         gaugeChart(data.metadata);
     });

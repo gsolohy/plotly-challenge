@@ -4,7 +4,7 @@ function gaugeChart(metadata) {
     // var degChanger = wfreq * 20
     // var deg = 180-degChanger;
     var r = .3;
-    var rad = (180 - wfreq*20) * Math.PI / 180;
+    var rad = (180 - (wfreq+0.5)*20) * Math.PI / 180;
     var x = r*Math.cos(rad)+0.5;
     var y = r*Math.sin(rad)+0.5;
 
@@ -19,12 +19,13 @@ function gaugeChart(metadata) {
         textinfo: "text",
         textposition: "inside",
         marker: {
-            colors: ["rgba(255, 0, 0, 0.6)", "rgba(255, 165, 0, 0.6)", 
-                     "rgba(255, 255, 0, 0.6)", "rgba(144, 238, 144, 0.6)", 
-                     "rgba(154, 205, 50, 0.6)", "rgba(255, 0, 0, 0.6)", 
-                     "rgba(255, 165, 0, 0.6)", "rgba(255, 255, 0, 0.6)", 
-                     "rgba(144, 238, 144, 0.6)", "white"]
+            colors: ["rgba(0, 140, 80, 0.1)", "rgba(0, 140, 80, 0.2)", 
+                     "rgba(0, 140, 80, 0.3)", "rgba(0, 140, 80, 0.4)", 
+                     "rgba(0, 140, 80, 0.5)", "rgba(0, 140, 80, 0.6)", 
+                     "rgba(0, 140, 80, 0.7)", "rgba(0, 140, 80, 0.8)", 
+                     "rgba(0, 140, 80, 0.9)", "white"]
         },
+        // labels: ["wfreq: 1", "wfreq: 2", "wfreq: 3", "wfreq: 4", "wfreq: 5", "wfreq: 6", "wfreq: 7", "wfreq: 8", "wfreq: 9", ""],
         hoverinfo: "text"
     }];
 
@@ -47,17 +48,17 @@ function gaugeChart(metadata) {
 }
 
 // I couldn't find a way to restyle only the layout part of a plot using restyle
+// function doesn't work
+function updateGauge(metadata) {
+  var wfreq = metadata[0].wfreq;
+  var r = .3;
+  var rad = (180 - wfreq*20) * Math.PI / 180;
+  var x = r*Math.cos(rad)+0.5;
+  var y = r*Math.sin(rad)+0.5;
 
-// function updateGuage(metadata) {
-//   var wfreq = metadata[0].wfreq;
-//   var r = .3;
-//   var rad = (180 - wfreq*20) * Math.PI / 180;
-//   var x = r*Math.cos(rad)+0.5;
-//   var y = r*Math.sin(rad)+0.5;
-
-//     var update_needle = {
-//         'shape.x1': [x],
-//         'shape.y1': [y]
-//     };
-//     Plotly.restyle("guage",update_needle);
-// };
+  var update_needle = {
+      'shape.x1': [x],
+      'shape.y1': [y]
+  };
+  Plotly.restyle("guage", update_needle);
+};
